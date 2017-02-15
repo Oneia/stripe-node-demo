@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Stripe demo</title>
+</head>
+<body>
+	<form action="/stripe" method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_lvRFU1TqQbqLVOTj3PLSq8EU"
+    data-amount="999"
+    data-name="Demo Site"
+    data-description="Widget"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>
+<script>
+	// fetch('/stripe').then((res) => {
+	// 	console.log(res);
+	// })
+                //console.log(data.length);
+                //если обьек пуст выдаем сообщение
+</script>
+</body>
+</html>
