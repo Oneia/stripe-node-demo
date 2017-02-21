@@ -1,83 +1,40 @@
-var express = require('express');
-var stripe = require("stripe")("sk_test_7z5TfNhBo7VW9xOfzUtONAcT");
-var bodyParser = require('body-parser');
+const express = require('express');
+const stripe = require("stripe")("sk_test_7z5TfNhBo7VW9xOfzUtONAcT");
+const bodyParser = require('body-parser');
 
-var app = express();
+const app = express();
 
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
 
+app.use( (req, res, next) => {  
+      res.header('Access-Control-Allow-Origin', req.headers.origin);
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      next();
+ }); 
 
-var data = '';
+app.post('/stripe', (request, res) => {
 
-var site = '';
-var channelMy = '';
+    // step one - get token
+    const token = request.body.subscribtion.id;
+    const email = request.body.subscribtion.email;
+    const amount = request.body.subscribtion.amount; 
 
-//подключаем папку и главную к сервере
-app.use('/', express.static(__dirname + '/'));
-app.get('/', function (req, res) {
-    res.sendfile(__dirname + 'index.html');
-});
-
-//Обработка пост запроса
-app.post('/stripe', function (request, res){
-    var b = res;
-    var token = request.body.stripeToken; 
-    // var charge = stripe.charges.create({
-    //   amount: 1000,
-    //   currency: "usd",
-    //   description: "Example charge",
-    //   source: token,
-    // }, function(err, charge) {
-    //   console.log(charge)
-    // });
-    // // var plan = stripe.plans.create({
-    //       name: "Basic Plan",
-    //       id: "basic-monthly",
-    //       interval: "month",
-    //       currency: "usd",
-    //       amount: 0,
-    //     }, function(err, plan) {
-    //       // asynchronously called
-    //     });
-    // var customer = stripe.customers.create({
-    //   email: "jenny.rosen@example.com",
-    // }, function(err, customer) {
-    //   // asynchronously called
-    // });
-
-    // stripe.subscriptions.create({
-    //   customer: customer.id,
-    //   plan: "basic-monthly",
-    // }, function(err, subscription) {
-    //   // asynchronously called
-    // });
-    var token = request.body.stripeToken; // Using Express
-
-// Create a Customer:
-stripe.customers.create({
-  email: "paying.user@example.com",
-  source: token,
-}).then(function(customer) {
-  // YOUR CODE: Save the customer ID and other info in a database for later.
-  return stripe.charges.create({
-    amount: 1000,
-    currency: "usd",
-    customer: customer.id,
-  });
-}).then(function(charge) {
-    console.log(charge)
-  // Use and save the charge info.
-});
-
-// YOUR CODE (LATER): When it's time to charge the customer again, retrieve the customer ID.
-// stripe.charges.create({
-//   amount: 1500, // $15.00 this time
-//   currency: "usd",
-//   customer: customerId,
-// });
+    stripe.customers.create({
+      email: email,
+      source: token,
+    }).then(function(customer) {
+      // YOUR CODE: Save the customer ID and other info in a database for later.
+      return    stripe.subscriptions.create({
+              customer: customer.id,
+              plan: "test",
+            }, function(err, subscription) {
+              // asynchronously called
+               console.log(subscription)
+            });
+    })   
 
 });
 app.listen(8080);
