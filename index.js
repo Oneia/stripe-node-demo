@@ -18,10 +18,10 @@ app.use( (req, res, next) => {
 app.post('/stripe', (request, res) => {
 
     // step one - get token     
-    const token = request.body.subscribtion.id;
+    const token = request.body.subscribtion.id;    
     const email = request.body.subscribtion.email;
     const amount = request.body.subscribtion.amount; 
-    console.log( request.body.subscribtion)
+    console.log( request.body.subscribtion, 'asgsg')
 
     stripe.customers.create({
       email: email,
