@@ -1,5 +1,5 @@
 const express = require('express');
-const stripe = require("stripe")("sk_test_7z5TfNhBo7VW9xOfzUtONAcT");
+const stripe = require("stripe")("your stripe sk_key");
 const bodyParser = require('body-parser');
 
 const app = express();
