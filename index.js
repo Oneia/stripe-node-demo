@@ -21,7 +21,7 @@ app.post('/stripe', (request, res) => {
     const token = request.body.subscribtion.id;    
     const email = request.body.subscribtion.email;
     const amount = request.body.subscribtion.amount; 
-    console.log( request.body.subscribtion, 'asgsss sg')
+    console.log( request.body.subscribtion, 'asgsss    sg')
 
     stripe.customers.create({
       email: email,
