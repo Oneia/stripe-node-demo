@@ -21,20 +21,21 @@ app.post('/stripe', (request, res) => {
     const token = request.body.subscribtion.id;
     const email = request.body.subscribtion.email;
     const amount = request.body.subscribtion.amount; 
+    console.log( request.body.subscribtion)
 
     stripe.customers.create({
       email: email,
       source: token,
     }).then(function(customer) {
-      // YOUR CODE: Save the customer ID and other info in a database for later.
-      return    stripe.subscriptions.create({
-              customer: customer.id,
-              plan: "test",
-            }, function(err, subscription) {
-              // asynchronously called
-               console.log(subscription)
-            });
-    })   
+          // YOUR CODE: Save the customer ID and other info in a database for later.
+          return stripe.charges.create({
+            amount: 1000,
+            currency: "usd",
+            customer: customer.id,
+          });
+        }).then(function(charge) {
+          // Use and save the charge info.
+        });   
 
 });
 app.listen(8080);
