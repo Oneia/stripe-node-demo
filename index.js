@@ -17,7 +17,7 @@ app.use( (req, res, next) => {
 
 app.post('/stripe', (request, res) => {
 
-    // step one - get token  
+    // step one - get token     
     const token = request.body.subscribtion.id;
     const email = request.body.subscribtion.email;
     const amount = request.body.subscribtion.amount; 
